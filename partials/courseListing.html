@@ -1,0 +1,141 @@
+<div class="row">
+	<div class="sidebar-filter col-md-3 col-sm-4">
+
+		<h2>Sort</h2>
+		<div class="form-group">
+			<select class="form-control filter-time"
+				chosen
+		    	disable-search="true"
+		    	ng-model="sortMethod"
+		    	ng-options="val for val in allSortMethods">
+		    </select>
+		</div>
+
+		<h2>Filter</h2>
+		<div class="form-group">
+			<label for="filter_keywords">Keyword</label>
+			<input id="filter_keywords" class="form-control" type="search" ng-model="filter.searchString" placeholder="Enter keywords..." />
+			<label for="filter_subject">Subject</label>
+			<select id="filter_subject" class="form-control"
+				chosen
+				multiple
+				data-placeholder="All subjects"
+	          	no-results-text="'Could not find any subjects'"
+				ng-model="filter.subject"
+				ng-options="subject for subject in allSubjects | stringSort">
+			</select>
+			<label for="filter_term">Term</label>
+		    <select id="filter_term" class="form-control"
+				chosen
+		    	multiple
+				data-placeholder="All terms"
+	          	no-results-text="'Could not find any terms'"
+	          	ng-model="filter.term"
+	          	ng-options="term|termFormat for term in allTerms | termSort">
+	      	</select>
+	      	<label for="filter_day">Day</label>
+		    <select id="filter_day" class="form-control"
+				chosen
+		    	multiple
+				data-placeholder="All days"
+	          	no-results-text="'Could not find any days'"
+	          	ng-model="filter.day"
+	          	ng-options="day for day in getPossibleDays()">
+	       	</select>
+	       	<label for="filter_time">Time</label>
+	       	<div>
+			    <select class="form-control filter-time"
+					chosen
+			    	disable-search="true"
+			    	allow-single-deselect="true"
+			    	data-placeholder="Any time"
+			    	ng-model="filter.startTime"
+			    	ng-options="val for val in getPossibleTimes()"
+			    	ng-change="startTimeChange()">
+			    </select>
+			    <span class="filter-time-between">to</span>
+			    <select class="form-control filter-time"
+					chosen
+			   		disable-search="true"
+			   		allow-single-deselect="true"
+			   		data-placeholder="Any time"
+			    	ng-model="filter.endTime"
+			    	ng-options="val for val in getPossibleTimes()"
+			    	ng-change="endTimeChange()">
+			    </select>
+			</div>
+		    <label for="filter_instructor">Instructor</label>
+		    <select id="" class="form-control"
+				chosen
+		    	multiple
+				data-placeholder="All instructors"
+	          	no-results-text="'Could not find any instructors'"
+	          	ng-model="filter.instructor"
+	          	ng-options="instructor for instructor in allInstructors | stringSort">
+		    </select>
+		    <label for="filter_building">Building</label>
+		    <select id="filter_building" class="form-control"
+				chosen
+		    	multiple
+				data-placeholder="All buildings"
+	          	no-results-text="'Could not find any buildings'"
+	          	ng-model="filter.building"
+	          	ng-options="building for building in allBuildings | stringSort">
+		    </select>
+		</div>
+
+	</div>
+
+	<div ng-show="!coursesLoaded">Loading courses...</div>
+
+	<div ng-show="coursesLoaded && !courses.length">No courses meet the search criteria.</div>
+
+	<div class="col-md-9 col-sm-8">
+
+		<pagenav class="pagenav"></pagenav>
+
+		<ul class="course-list">
+		    <li ng:repeat="course in courses | courseSort:this | courseFilter:this | startFrom:currentPage*pageSize | limitTo:pageSize">
+
+		        <h1>
+		        	<span ng-bind-html="course.course_name | highlightKeyword:this" class="subtitle"></span>
+		        	<span ng-bind-html="course.course_title | highlightKeyword:this"></span>
+		        </h1>
+		        <div class="content">
+		        	<p ng-bind-html="course.course_desc | highlightKeyword:this"></p>
+		        	<div class="table-responsive">
+				        <table class="table table-bordered">
+				        	<tr>
+				        		<th>Term</th>
+				        		<th>Instructor</th>
+				        		<th>Meet Time / Location</th>
+			        		</tr>
+					        <tr ng:repeat="(term, termData) in course.terms">
+					        	<td>{{ term | termFormat }}</td>
+					        	<td>
+					        		<div ng:repeat="instructor in termData.instructors">
+										{{ instructor }}
+					        		</div>
+					        	</td>
+					        	<td>
+					        		<div class="limit-height">
+							        	<div ng:repeat="meet_time in termData.meet_times">
+											{{ meet_time.weekDay }}
+											{{ meet_time.startTime }} -
+											{{ meet_time.endTime }} /
+											{{ meet_time.building }}
+											{{ meet_time.room }}
+							        	</div>
+						        	</div>
+						        </td>
+					        </tr>
+				        </table>
+				   	</div>
+		        </div>
+		    </li>
+		</ul>
+
+		<pageNav class="pagenav"></pageNav>
+
+	</div>
+</div>

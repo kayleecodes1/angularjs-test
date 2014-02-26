@@ -1,0 +1,15 @@
+<button type="button"
+	class="btn btn-primary"
+	ng-disabled="currentPage == 0"
+	ng-click="currentPage=currentPage-1">
+	<span class="glyphicon glyphicon-chevron-left"></span>
+</button>
+
+<span class="pageInfo">{{ currentPage+1 }} / {{ pageCount }}</span>
+
+<button type="button"
+	class="btn btn-primary"
+	ng-disabled="currentPage >= pageCount - 1"
+	ng-click="currentPage=currentPage+1">
+	<span class="glyphicon glyphicon-chevron-right"></span>
+</button>

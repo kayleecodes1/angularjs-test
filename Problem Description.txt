@@ -1,0 +1,4 @@
+Advanced Front-End Problem
+The goal of this exercise is to assess your approach to creative data representation and understanding of Javascript, CSS & HTML. Along with your code, please provide a bulleted list of talking points to walk us through your solution. If you are not able to create a complete solution, please consider this a prototyping exercise that is more heavily weighted towards user experience and less about implimentation. If you have any questions about the problem itself, please feel free to ask for clarification. 
+
+The attached file is a JSON string of typical information about courses taught at the school. Just like the data we typically get from our data sources, the data is not necessary complete. Using this file, please create an interactive webpage to display the information. Bonus points will be given for intuitive interfaces and interfaces that incorporate usability standards.
